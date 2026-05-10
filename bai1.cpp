@@ -6,7 +6,7 @@ public:
     for (int i = 0; i < nums.size(); i++) {
         int canTim = target - nums[i];
 
-        // Nếu đã tồn tại số cần tìm
+        // Nếu đã tồn tại số cần tìmgit status
         if (mp.count(canTim)) {
             return {mp[canTim], i};
         }
