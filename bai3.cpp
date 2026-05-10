@@ -1,29 +1,21 @@
 class Solution {
 public:
-    ListNode* addTwoNumbers(ListNode* l1, ListNode* l2) {
-        ListNode* dummy = new ListNode(0); // node giả
-        ListNode* curr = dummy;
-        int carry = 0;
+    int lengthOfLongestSubstring(string s) {
+      vector<int> cnt(256, 0); // đếm ký tự
+    int left = 0, maxLen = 0;
 
-        while (l1 != NULL || l2 != NULL || carry != 0) {
-            int sum = carry;
+    for (int right = 0; right < s.length(); right++) {
+        cnt[s[right]]++;
 
-            if (l1 != NULL) {
-                sum += l1->val;
-                l1 = l1->next;
-            }
-
-            if (l2 != NULL) {
-                sum += l2->val;
-                l2 = l2->next;
-            }
-
-            carry = sum / 10;
-            curr->next = new ListNode(sum % 10);
-            curr = curr->next;
+        // Nếu ký tự bị trùng
+        while (cnt[s[right]] > 1) {
+            cnt[s[left]]--;
+            left++;
         }
 
-        return dummy->next;
-    } 
+        maxLen = max(maxLen, right - left + 1);
+    }
 
+    return maxLen;  
+    }
 };
