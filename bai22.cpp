@@ -1,25 +1,27 @@
 class Solution {
 public:
-    vector<string> result;
-
-    void backtrack(string current, int open, int close, int n) {
-        if (current.length() == 2 * n) {
-            result.push_back(current);
-            return;
+    vector<string> fizzBuzz(int n) {
+        vector<string> answer;
+        // Cấp phát trước bộ nhớ để tránh việc resize vector nhiều lần
+        answer.reserve(n);
+        
+        for (int i = 1; i <= n; i++) {
+            // Kiểm tra chia hết cho cả 3 và 5 trước
+            if (i % 3 == 0 && i % 5 == 0) {
+                answer.push_back("FizzBuzz");
+            } 
+            else if (i % 3 == 0) {
+                answer.push_back("Fizz");
+            } 
+            else if (i % 5 == 0) {
+                answer.push_back("Buzz");
+            } 
+            else {
+                // Chuyển số nguyên i thành chuỗi
+                answer.push_back(to_string(i));
+            }
         }
-
-        if (open < n) {
-            backtrack(current + "(", open + 1, close, n);
-        }
-
-        if (close < open) {
-            backtrack(current + ")", open, close + 1, n);
-        }
-    }
-
-    vector<string> generateParenthesis(int n) {
-        result.clear();
-        backtrack("", 0, 0, n);
-        return result;
+        
+        return answer;
     }
 };
