@@ -1,21 +1,20 @@
 class Solution {
 public:
-    int lengthOfLongestSubstring(string s) {
-      vector<int> cnt(256, 0); // đếm ký tự
-    int left = 0, maxLen = 0;
+    vector<int> twoSum(vector<int>& nums, int target) {
+        unordered_map<int, int> mp; // value -> index
 
-    for (int right = 0; right < s.length(); right++) {
-        cnt[s[right]]++;
+    for (int i = 0; i < nums.size(); i++) {
+        int canTim = target - nums[i];
 
-        // Nếu ký tự bị trùng
-        while (cnt[s[right]] > 1) {
-            cnt[s[left]]--;
-            left++;
+        // Nếu đã tồn tại số cần tìm
+        if (mp.count(canTim)) {
+            return {mp[canTim], i};
         }
 
-        maxLen = max(maxLen, right - left + 1);
+        // Lưu số hiện tại vào map
+        mp[nums[i]] = i;
     }
 
-    return maxLen;  
+    return {}; // theo đề bài thì dòng này hầu như không chạy
     }
 };
