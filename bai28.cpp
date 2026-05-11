@@ -1,15 +1,21 @@
 class Solution {
 public:
-    int strStr(string haystack, string needle) {
-        int n = haystack.size();
-        int m = needle.size();
+    int numJewelsInStones(string jewels, string stones) {
+        // Bước 1: Lưu các loại đá quý vào một unordered_set để tìm kiếm nhanh
+        unordered_set<char> jewelSet;
+        for (char j : jewels) {
+            jewelSet.insert(j);
+        }
 
-        for (int i = 0; i <= n - m; i++) {
-            if (haystack.substr(i, m) == needle) {
-                return i;
+        int count = 0;
+        // Bước 2: Duyệt qua từng viên đá bạn đang có
+        for (char s : stones) {
+            // Nếu viên đá s nằm trong bộ sưu tập đá quý
+            if (jewelSet.count(s)) {
+                count++;
             }
         }
 
-        return -1;
+        return count;
     }
 };
