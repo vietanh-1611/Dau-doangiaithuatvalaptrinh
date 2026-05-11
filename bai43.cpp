@@ -1,38 +1,34 @@
 class Solution {
 public:
-    string multiply(string num1, string num2) {
-        if (num1 == "0" || num2 == "0") return "0";
-
-        int n = num1.size();
-        int m = num2.size();
-        vector<int> res(n + m, 0);
-
-        // Nhân từng cặp chữ số
-        for (int i = n - 1; i >= 0; i--) {
-            for (int j = m - 1; j >= 0; j--) {
-                // Chuyển ký tự thành số và nhân
-                int mul = (num1[i] - '0') * (num2[j] - '0');
-                
-                // Vị trí lưu tích tạm thời
-                int p1 = i + j;
-                int p2 = i + j + 1;
-                
-                int sum = mul + res[p2];
-
-                res[p2] = sum % 10;   // Lưu hàng đơn vị
-                res[p1] += sum / 10;  // Cộng dồn phần dư vào vị trí phía trước
+    string reformatNumber(string number) {
+        // Bước 1: Loại bỏ các ký tự không phải số
+        string digits = "";
+        for (char c : number) {
+            if (isdigit(c)) {
+                digits += c;
             }
         }
 
-        // Chuyển mảng số thành chuỗi kết quả
-        string ans = "";
-        for (int p : res) {
-            // Bỏ qua các số 0 ở đầu (nếu có)
-            if (!(ans.length() == 0 && p == 0)) {
-                ans += to_string(p);
-            }
+        string result = "";
+        int i = 0;
+        int n = digits.length();
+
+        // Bước 2: Nhóm khối 3 cho đến khi còn <= 4 chữ số
+        while (n - i > 4) {
+            result += digits.substr(i, 3) + "-";
+            i += 3;
         }
 
-        return ans.length() == 0 ? "0" : ans;
+        // Bước 3: Xử lý phần còn lại (2, 3 hoặc 4 chữ số)
+        int remaining = n - i;
+        if (remaining == 4) {
+            // Chia 4 thành 2-2
+            result += digits.substr(i, 2) + "-" + digits.substr(i + 2, 2);
+        } else {
+            // Trường hợp 2 hoặc 3 chữ số thì giữ nguyên khối đó
+            result += digits.substr(i);
+        }
+
+        return result;
     }
 };
