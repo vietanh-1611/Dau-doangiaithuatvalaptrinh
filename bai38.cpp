@@ -1,37 +1,37 @@
 class Solution {
 public:
-    string countAndSay(int n) {
-        if (n <= 0) return "";
-        string result = "1";
-        
-        // Lặp từ 1 đến n-1 để xây dựng chuỗi thứ n
-        for (int i = 1; i < n; i++) {
-            result = getNext(result);
-        }
-        
-        return result;
-    }
+    bool lemonadeChange(vector<int>& bills) {
+        int five = 0;  // Số lượng tờ $5 hiện có
+        int ten = 0;   // Số lượng tờ $10 hiện có
 
-private:
-    string getNext(string s) {
-        string res = "";
-        int i = 0;
-        
-        while (i < s.length()) {
-            int count = 1;
-            char digit = s[i];
-            
-            // Đếm xem có bao nhiêu chữ số giống nhau liên tiếp
-            while (i + 1 < s.length() && s[i + 1] == digit) {
-                count++;
-                i++;
+        for (int bill : bills) {
+            if (bill == 5) {
+                // Khách đưa $5, không cần thối
+                five++;
+            } 
+            else if (bill == 10) {
+                // Khách đưa $10, cần thối lại $5
+                if (five == 0) return false;
+                five--;
+                ten++;
+            } 
+            else { // bill == 20
+                // Khách đưa $20, cần thối lại $15
+                // Ưu tiên thối 1 tờ $10 + 1 tờ $5
+                if (ten > 0 && five > 0) {
+                    ten--;
+                    five--;
+                } 
+                // Nếu không có $10, thối bằng 3 tờ $5
+                else if (five >= 3) {
+                    five -= 3;
+                } 
+                else {
+                    return false;
+                }
             }
-            
-            // Thêm "số lượng" + "chữ số đó" vào chuỗi kết quả
-            res += to_string(count) + digit;
-            i++;
         }
         
-        return res;
+        return true;
     }
 };
