@@ -1,26 +1,29 @@
 class Solution {
 public:
-    void rotate(vector<vector<int>>& matrix) {
-        int n = matrix.size();
-
-        // Bước 1: Chuyển vị ma trận (Transpose)
-        for (int i = 0; i < n; i++) {
-            // Chú ý j chạy từ i để không hoán đổi ngược lại về chỗ cũ
-            for (int j = i + 1; j < n; j++) {
-                swap(matrix[i][j], matrix[j][i]);
+    int secondHighest(string s) {
+        // Mảng đánh dấu sự hiện diện của các chữ số từ 0-9
+        bool exists[10] = {false};
+        
+        // Bước 1: Duyệt chuỗi và đánh dấu các chữ số xuất hiện
+        for (char c : s) {
+            if (isdigit(c)) {
+                exists[c - '0'] = true;
             }
         }
-
-        // Bước 2: Đảo ngược từng hàng (Reverse)
-        for (int i = 0; i < n; i++) {
-            // Có thể dùng hàm có sẵn reverse(matrix[i].begin(), matrix[i].end());
-            // Hoặc dùng hai con trỏ để đảo ngược tại chỗ:
-            int left = 0, right = n - 1;
-            while (left < right) {
-                swap(matrix[i][left], matrix[i][right]);
-                left++;
-                right--;
+        
+        int foundCount = 0;
+        // Bước 2: Duyệt ngược từ 9 về 0 để tìm số lớn thứ hai
+        for (int i = 9; i >= 0; i--) {
+            if (exists[i]) {
+                foundCount++;
+                // Nếu đây là chữ số khác biệt thứ hai được tìm thấy
+                if (foundCount == 2) {
+                    return i;
+                }
             }
         }
+        
+        // Bước 3: Không tìm thấy số lớn thứ hai
+        return -1;
     }
 };
