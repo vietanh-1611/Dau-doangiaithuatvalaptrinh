@@ -1,24 +1,29 @@
 class Solution {
 public:
-    int maxArea(vector<int>& height) {
-        int left = 0;
-    int right = height.size() - 1;
-    int maxWater = 0;
+    bool canConstruct(string ransomNote, string magazine) {
+        // Nếu ransomNote dài hơn magazine thì chắc chắn không thể tạo được
+        if (ransomNote.length() > magazine.length()) {
+            return false;
+        }
 
-    while (left < right) {
-        int h = min(height[left], height[right]);
-        int width = right - left;
-        int area = h * width;
+        // Mảng đếm tần suất cho 26 chữ cái tiếng Anh
+        int count[26] = {0};
 
-        maxWater = max(maxWater, area);
+        // Đếm các ký tự có sẵn trong "kho" magazine
+        for (char c : magazine) {
+            count[c - 'a']++;
+        }
 
-        // Di chuyển con trỏ có chiều cao nhỏ hơn
-        if (height[left] < height[right])
-            left++;
-        else
-            right--;
-    }
+        // Kiểm tra xem magazine có đủ chữ để tạo ransomNote không
+        for (char c : ransomNote) {
+            count[c - 'a']--;
+            
+            // Nếu sau khi dùng, số lượng ký tự này âm tức là thiếu chữ
+            if (count[c - 'a'] < 0) {
+                return false;
+            }
+        }
 
-    return maxWater;
+        return true;
     }
 };
