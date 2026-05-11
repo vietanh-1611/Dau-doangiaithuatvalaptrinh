@@ -1,37 +1,15 @@
-/**
- * Definition for singly-linked list.
- * struct ListNode {
- *     int val;
- *     ListNode *next;
- *     ListNode() : val(0), next(nullptr) {}
- *     ListNode(int x) : val(x), next(nullptr) {}
- *     ListNode(int x, ListNode *next) : val(x), next(next) {}
- * };
- */
 class Solution {
 public:
-    ListNode* removeNthFromEnd(ListNode* head, int n) {
-        // Tạo node giả để xử lý trường hợp xóa head
-        ListNode* dummy = new ListNode(0);
-        dummy->next = head;
+    int strStr(string haystack, string needle) {
+        int n = haystack.size();
+        int m = needle.size();
 
-        ListNode* fast = dummy;
-        ListNode* slow = dummy;
-
-        // Cho fast đi trước n bước
-        for (int i = 0; i < n; i++) {
-            fast = fast->next;
+        for (int i = 0; i <= n - m; i++) {
+            if (haystack.substr(i, m) == needle) {
+                return i;
+            }
         }
 
-        // Di chuyển cả hai cho đến khi fast tới cuối
-        while (fast->next != nullptr) {
-            fast = fast->next;
-            slow = slow->next;
-        }
-
-        // Xóa node
-        slow->next = slow->next->next;
-
-        return dummy->next;
+        return -1;
     }
 };
