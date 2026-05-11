@@ -1,26 +1,26 @@
 class Solution {
 public:
-    int firstMissingPositive(vector<int>& nums) {
-        int n = nums.size();
+    vector<int> distributeCandies(int candies, int num_people) {
+        vector<int> res(num_people, 0);
+        int i = 0;      // Chỉ số người nhận kẹo hiện tại
+        long give = 1;  // Số lượng kẹo dự định tặng ở lượt này
 
-        for (int i = 0; i < n; i++) {
-            // Sử dụng vòng lặp while để đưa số hiện tại về đúng chỗ của nó
-            // Điều kiện: 
-            // 1. Số nằm trong khoảng [1, n]
-            // 2. Số đó chưa nằm đúng vị trí (nums[i] != nums[nums[i] - 1])
-            while (nums[i] > 0 && nums[i] <= n && nums[i] != nums[nums[i] - 1]) {
-                swap(nums[i], nums[nums[i] - 1]);
+        while (candies > 0) {
+            // Nếu kẹo còn lại không đủ để tặng 'give', tặng nốt phần còn lại
+            if (candies < give) {
+                res[i % num_people] += candies;
+                candies = 0; // Đã hết kẹo
+            } else {
+                // Tặng đủ số kẹo 'give'
+                res[i % num_people] += give;
+                candies -= give;
             }
+            
+            // Chuẩn bị cho lượt tặng tiếp theo
+            give++;
+            i++;
         }
-
-        // Sau khi sắp xếp, duyệt lại để tìm số đầu tiên sai vị trí
-        for (int i = 0; i < n; i++) {
-            if (nums[i] != i + 1) {
-                return i + 1;
-            }
-        }
-
-        // Nếu tất cả từ 1 đến n đều đúng chỗ, số thiếu là n + 1
-        return n + 1;
+        
+        return res;
     }
 };
