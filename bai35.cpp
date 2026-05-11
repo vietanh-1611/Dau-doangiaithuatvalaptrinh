@@ -1,23 +1,22 @@
 class Solution {
 public:
-    int searchInsert(vector<int>& nums, int target) {
-        int left = 0;
-        int right = nums.size() - 1;
-
-        while (left <= right) {
-            int mid = left + (right - left) / 2;
-
-            if (nums[mid] == target) {
-                return mid; // Tìm thấy target, trả về chỉ mục ngay
-            } else if (nums[mid] < target) {
-                left = mid + 1; // Target lớn hơn, tìm ở nửa bên phải
-            } else {
-                right = mid - 1; // Target nhỏ hơn, tìm ở nửa bên trái
-            }
+    int numWaterBottles(int numBottles, int numExchange) {
+        int totalDrunk = 0;
+        int emptyBottles = 0;
+        
+        while (numBottles > 0) {
+            // Bước 1: Uống hết số chai đầy hiện có
+            totalDrunk += numBottles;
+            emptyBottles += numBottles;
+            numBottles = 0;
+            
+            // Bước 2: Đổi chai không lấy chai đầy mới
+            numBottles = emptyBottles / numExchange;
+            
+            // Bước 3: Cập nhật số chai không còn dư lại sau khi đổi
+            emptyBottles = emptyBottles % numExchange;
         }
-
-        // Khi vòng lặp kết thúc mà không tìm thấy, 'left' chính là 
-        // vị trí chèn phù hợp để giữ mảng luôn được sắp xếp.
-        return left;
+        
+        return totalDrunk;
     }
 };
