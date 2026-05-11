@@ -1,15 +1,10 @@
 class Solution {
 public:
-    int removeElement(vector<int>& nums, int val) {
-        int k = 0; // vị trí ghi
-
-        for (int i = 0; i < nums.size(); i++) {
-            if (nums[i] != val) {
-                nums[k] = nums[i];
-                k++;
-            }
+    string toLowerCase(string s) {
+        for (int i = 0; i < s.length(); i++) {
+            // tolower tự động xử lý: nếu là 'A' -> 'a', nếu là '1' -> '1'
+            s[i] = tolower(s[i]);
         }
-
-        return k;
+        return s;
     }
 };
