@@ -1,31 +1,30 @@
 class Solution {
 public:
-    int divide(int dividend, int divisor) {
-        // Xử lý trường hợp tràn số duy nhất: -2^31 / -1 = 2^31 (vượt quá dải int)
-        if (dividend == INT_MIN && divisor == -1) {
-            return INT_MAX;
-        }
+    string toGoatLatin(string sentence) {
+        stringstream ss(sentence);
+        string word, result;
+        string vowels = "aeiouAEIOU";
+        int wordIndex = 1;
 
-        // Xác định dấu của kết quả
-        bool negative = (dividend > 0) ^ (divisor > 0);
+        while (ss >> word) {
+            // Nếu có nhiều hơn 1 từ, thêm dấu cách trước khi nối từ tiếp theo
+            if (wordIndex > 1) result += " ";
 
-        // Chuyển sang số dương (dùng long long để tránh tràn số khi chuyển INT_MIN)
-        long long a = abs((long long)dividend);
-        long long b = abs((long long)divisor);
-        long long quotient = 0;
-
-        while (a >= b) {
-            long long temp = b, multiple = 1;
-            // Tìm bội số lớn nhất của b (theo lũy thừa 2) mà vẫn <= a
-            while (a >= (temp << 1)) {
-                temp <<= 1;
-                multiple <<= 1;
+            // Kiểm tra xem chữ cái đầu có phải nguyên âm không
+            if (vowels.find(word[0]) != string::npos) {
+                // Luật 1: Nguyên âm
+                result += word + "ma";
+            } else {
+                // Luật 2: Phụ âm
+                result += word.substr(1) + word[0] + "ma";
             }
-            // Trừ bội số đó khỏi a và cộng số lần tương ứng vào thương
-            a -= temp;
-            quotient += multiple;
+
+            // Luật 3: Thêm 'a' theo chỉ số từ
+            result += string(wordIndex, 'a');
+            
+            wordIndex++;
         }
 
-        return negative ? -quotient : quotient;
+        return result;
     }
 };
