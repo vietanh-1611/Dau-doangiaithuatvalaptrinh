@@ -1,43 +1,25 @@
 class Solution {
 public:
-    vector<vector<int>> permuteUnique(vector<int>& nums) {
-        vector<vector<int>> result;
-        vector<int> current;
-        vector<bool> used(nums.size(), false);
-        
-        // Bắt buộc phải sắp xếp để xử lý trùng lặp
-        sort(nums.begin(), nums.end());
-        
-        backtrack(nums, used, current, result);
-        return result;
-    }
-
-private:
-    void backtrack(vector<int>& nums, vector<bool>& used, 
-                   vector<int>& current, vector<vector<int>>& result) {
-        // Nếu độ dài bằng mảng gốc, ta có một hoán vị duy nhất
-        if (current.size() == nums.size()) {
-            result.push_back(current);
-            return;
+    int countMatches(vector<vector<string>>& items, string ruleKey, string ruleValue) {
+        // Bước 1: Xác định chỉ số cột cần kiểm tra dựa trên ruleKey
+        int index = 0;
+        if (ruleKey == "type") {
+            index = 0;
+        } else if (ruleKey == "color") {
+            index = 1;
+        } else if (ruleKey == "name") {
+            index = 2;
         }
-
-        for (int i = 0; i < nums.size(); i++) {
-            // Nếu phần tử đã dùng rồi thì bỏ qua
-            if (used[i]) continue;
-
-            // KIỂM TRA TRÙNG LẶP:
-            // Nếu nums[i] == nums[i-1] và nums[i-1] chưa được dùng 
-            // (nghĩa là nums[i-1] vừa được "nhả" ra từ bước quay lui trước)
-            if (i > 0 && nums[i] == nums[i - 1] && !used[i - 1]) continue;
-
-            used[i] = true;
-            current.push_back(nums[i]);
-            
-            backtrack(nums, used, current, result);
-            
-            // Quay lui
-            current.pop_back();
-            used[i] = false;
+        
+        int count = 0;
+        // Bước 2: Duyệt qua từng vật phẩm trong danh sách
+        for (const auto& item : items) {
+            // Bước 3: So sánh giá trị tại chỉ số đã xác định với ruleValue
+            if (item[index] == ruleValue) {
+                count++;
+            }
         }
+        
+        return count;
     }
 };
