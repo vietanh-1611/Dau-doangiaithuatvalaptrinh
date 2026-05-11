@@ -1,17 +1,15 @@
 class Solution {
 public:
-    int removeDuplicates(vector<int>& nums) {
-        if (nums.size() == 0) return 0;
-
-        int i = 0; // vị trí phần tử duy nhất
-
-        for (int j = 1; j < nums.size(); j++) {
-            if (nums[j] != nums[i]) {
-                i++;
-                nums[i] = nums[j];
-            }
-        }
-
-        return i + 1; // số phần tử duy nhất
+    int distributeCandies(vector<int>& candyType) {
+        // Bước 1: Tính số lượng kẹo tối đa bác sĩ cho phép ăn
+        int maxAllowed = candyType.size() / 2;
+        
+        // Bước 2: Đếm số loại kẹo thực tế Alice có
+        // Sử dụng unordered_set để lưu trữ các loại kẹo duy nhất
+        unordered_set<int> uniqueTypes(candyType.begin(), candyType.end());
+        int actualTypes = uniqueTypes.size();
+        
+        // Bước 3: Trả về giá trị nhỏ hơn giữa thực tế và cho phép
+        return min(actualTypes, maxAllowed);
     }
 };
