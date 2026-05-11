@@ -1,37 +1,27 @@
 class Solution {
 public:
-    bool isMatch(string s, string p) {
-        int m = s.size();
-        int n = p.size();
+    bool canPlaceFlowers(vector<int>& flowerbed, int n) {
+        int count = 0;
+        int size = flowerbed.size();
         
-        vector<vector<bool>> dp(m + 1, vector<bool>(n + 1, false));
-        dp[0][0] = true;
-
-        // Trường hợp chuỗi rỗng
-        for (int j = 2; j <= n; j++) {
-            if (p[j - 1] == '*')
-                dp[0][j] = dp[0][j - 2];
-        }
-
-        for (int i = 1; i <= m; i++) {
-            for (int j = 1; j <= n; j++) {
-
-                if (p[j - 1] == '.' || p[j - 1] == s[i - 1]) {
-                    dp[i][j] = dp[i - 1][j - 1];
-                }
-                else if (p[j - 1] == '*') {
-
-                    // 0 lần
-                    dp[i][j] = dp[i][j - 2];
-
-                    // >= 1 lần
-                    if (p[j - 2] == '.' || p[j - 2] == s[i - 1]) {
-                        dp[i][j] = dp[i][j] || dp[i - 1][j];
-                    }
+        for (int i = 0; i < size; i++) {
+            // Kiểm tra xem vị trí hiện tại có trồng được hoa không
+            if (flowerbed[i] == 0) {
+                // Kiểm tra hàng xóm bên trái
+                bool left_empty = (i == 0) || (flowerbed[i - 1] == 0);
+                // Kiểm tra hàng xóm bên phải
+                bool right_empty = (i == size - 1) || (flowerbed[i + 1] == 0);
+                
+                if (left_empty && right_empty) {
+                    flowerbed[i] = 1; // Trồng hoa vào đây
+                    count++;
+                    
+                    // Nếu đã trồng đủ n bông thì thoát sớm cho nhanh
+                    if (count >= n) return true;
                 }
             }
         }
-
-        return dp[m][n];
+        
+        return count >= n;
     }
 };
