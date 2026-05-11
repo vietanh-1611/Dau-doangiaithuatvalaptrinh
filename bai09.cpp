@@ -1,18 +1,20 @@
 class Solution {
 public:
-    bool isPalindrome(int x) {
-         // Số âm hoặc kết thúc bằng 0 (trừ 0)
-        if (x < 0 || (x % 10 == 0 && x != 0))
-            return false;
+    int lengthOfLastWord(string s) {
+        int length = 0;
+        int i = s.length() - 1;
 
-        int reversedHalf = 0;
-
-        while (x > reversedHalf) {
-            reversedHalf = reversedHalf * 10 + x % 10;
-            x /= 10;
+        // Bước 1: Bỏ qua các khoảng trắng ở cuối chuỗi
+        while (i >= 0 && s[i] == ' ') {
+            i--;
         }
 
-        // So sánh
-        return (x == reversedHalf || x == reversedHalf / 10);
+        // Bước 2: Đếm các ký tự của từ cuối cùng
+        while (i >= 0 && s[i] != ' ') {
+            length++;
+            i--;
+        }
+
+        return length;
     }
 };
