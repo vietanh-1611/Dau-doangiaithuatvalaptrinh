@@ -1,24 +1,17 @@
 class Solution {
 public:
-    bool canJump(vector<int>& nums) {
-        int n = nums.size();
-        int farthest = 0;
-
-        for (int i = 0; i < n; i++) {
-            // Nếu vị trí hiện tại nằm ngoài tầm với xa nhất đã biết
-            if (i > farthest) {
-                return false;
-            }
-
-            // Cập nhật tầm với xa nhất mới
-            farthest = max(farthest, i + nums[i]);
-
-            // Nếu tầm với đã bao phủ hoặc vượt qua đích
-            if (farthest >= n - 1) {
-                return true;
+    vector<int> targetIndices(vector<int>& nums, int target) {
+        // Bước 1: Sắp xếp mảng tăng dần
+        sort(nums.begin(), nums.end());
+        
+        vector<int> result;
+        // Bước 2: Tìm các chỉ số có giá trị bằng target
+        for (int i = 0; i < nums.size(); i++) {
+            if (nums[i] == target) {
+                result.push_back(i);
             }
         }
-
-        return false;
+        
+        return result;
     }
 };
