@@ -1,23 +1,22 @@
 class Solution {
 public:
-    string longestCommonPrefix(vector<string>& strs) {
-       if (strs.empty()) return "";
+    vector<int> plusOne(vector<int>& digits) {
+        int n = digits.size();
 
-    string prefix = strs[0];  // lấy chuỗi đầu làm tiền tố
-
-    for (int i = 1; i < strs.size(); i++) {
-        while (strs[i].find(prefix) != 0) { 
-            prefix.pop_back();  // xóa ký tự cuối
-            if (prefix.empty()) return "";
+        // Duyệt ngược từ cuối mảng lên đầu
+        for (int i = n - 1; i >= 0; i--) {
+            if (digits[i] < 9) {
+                // Nếu chữ số < 9, chỉ cần cộng 1 và kết thúc
+                digits[i]++;
+                return digits;
+            }
+            // Nếu chữ số là 9, nó trở thành 0 và tiếp tục vòng lặp (nhớ 1)
+            digits[i] = 0;
         }
-    }
 
-    return prefix;
-}
-
-int main() {
-    vector<string> strs = {"flower","flow","flight"};
-    cout << longestCommonPrefix(strs);
-    return 0; 
+        // Nếu chạy hết vòng lặp, nghĩa là số ban đầu toàn chữ số 9 (vd: 999)
+        // Kết quả sẽ là 1000. Ta chèn 1 vào đầu mảng.
+        digits.insert(digits.begin(), 1);
+        return digits;
     }
 };
