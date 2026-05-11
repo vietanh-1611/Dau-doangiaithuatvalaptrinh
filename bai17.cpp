@@ -1,30 +1,21 @@
 class Solution {
 public:
-    vector<string> result;
-
-    void backtrack(string digits, int index, string current) {
-        if (index == digits.length()) {
-            result.push_back(current);
-            return;
+    int findMaxConsecutiveOnes(vector<int>& nums) {
+        int max_count = 0;
+        int current_count = 0;
+        
+        for (int n : nums) {
+            if (n == 1) {
+                // Tăng biến đếm khi gặp số 1
+                current_count++;
+            } else {
+                // Khi gặp số 0, cập nhật max và reset biến đếm
+                max_count = max(max_count, current_count);
+                current_count = 0;
+            }
         }
-
-        string mapping[] = {
-            "", "", "abc", "def", "ghi",
-            "jkl", "mno", "pqrs", "tuv", "wxyz"
-        };
-
-        string letters = mapping[digits[index] - '0'];
-
-        for (char c : letters) {
-            backtrack(digits, index + 1, current + c);
-        }
-    }
-
-    vector<string> letterCombinations(string digits) {
-        result.clear();
-        if (digits.empty()) return result;
-
-        backtrack(digits, 0, "");
-        return result;
+        
+        // Kiểm tra lần cuối sau khi kết thúc vòng lặp
+        return max(max_count, current_count);
     }
 };
