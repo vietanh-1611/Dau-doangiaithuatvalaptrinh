@@ -1,55 +1,22 @@
 class Solution {
 public:
-    vector<vector<int>> threeSum(vector<int>& nums) {
-       vector<vector<int>> result;
-    sort(nums.begin(), nums.end());
-
-    int n = nums.size();
-
-    for (int i = 0; i < n - 2; i++) {
-        // Bỏ trùng phần tử đầu
-        if (i > 0 && nums[i] == nums[i - 1])
-            continue;
-
-        int left = i + 1;
-        int right = n - 1;
-
-        while (left < right) {
-            int sum = nums[i] + nums[left] + nums[right];
-
-            if (sum == 0) {
-                result.push_back({nums[i], nums[left], nums[right]});
-
-                // Bỏ trùng
-                while (left < right && nums[left] == nums[left + 1]) left++;
-                while (left < right && nums[right] == nums[right - 1]) right--;
-
-                left++;
-                right--;
-            }
-            else if (sum < 0) {
-                left++;
-            }
-            else {
-                right--;
+    int firstUniqChar(string s) {
+        // Mảng lưu tần suất xuất hiện của 26 chữ cái 'a'-'z'
+        int count[26] = {0};
+        
+        // Bước 1: Duyệt chuỗi lần đầu để đếm tần suất
+        for (char c : s) {
+            count[c - 'a']++;
+        }
+        
+        // Bước 2: Duyệt chuỗi lần hai để tìm ký tự duy nhất đầu tiên
+        for (int i = 0; i < s.length(); i++) {
+            if (count[s[i] - 'a'] == 1) {
+                return i; // Trả về chỉ số ngay khi tìm thấy
             }
         }
-    }
-
-    return result;
-}
-
-int main() {
-    vector<int> nums = {-1,0,1,2,-1,-4};
-    vector<vector<int>> ans = threeSum(nums);
-
-    for (auto triplet : ans) {
-        cout << "[";
-        for (int x : triplet)
-            cout << x << " ";
-        cout << "] ";
-    }
-
-    return 0; 
+        
+        // Nếu không tìm thấy ký tự nào thỏa mãn
+        return -1;
     }
 };
