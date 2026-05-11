@@ -1,28 +1,22 @@
 class Solution {
 public:
-    vector<vector<int>> permute(vector<int>& nums) {
-        vector<vector<int>> result;
-        backtrack(nums, 0, result);
-        return result;
-    }
-
-private:
-    void backtrack(vector<int>& nums, int start, vector<vector<int>>& result) {
-        // Nếu đã xét đến phần tử cuối cùng, ta có một hoán vị hoàn chỉnh
-        if (start == nums.size()) {
-            result.push_back(nums);
-            return;
+    int sumOfUnique(vector<int>& nums) {
+        // Bước 1: Khai báo mảng đếm tần suất (do nums[i] <= 100)
+        int count[101] = {0};
+        
+        // Bước 2: Duyệt mảng để đếm số lần xuất hiện
+        for (int x : nums) {
+            count[x]++;
         }
-
-        for (int i = start; i < nums.size(); i++) {
-            // Hoán đổi phần tử tại start với phần tử tại i
-            swap(nums[start], nums[i]);
-            
-            // Đệ quy để tìm hoán vị cho phần còn lại của mảng
-            backtrack(nums, start + 1, result);
-            
-            // Quay lui (Backtrack): Đổi lại chỗ cũ để thử trường hợp tiếp theo
-            swap(nums[start], nums[i]);
+        
+        int totalSum = 0;
+        // Bước 3: Duyệt qua mảng đếm, chỉ cộng các số xuất hiện đúng 1 lần
+        for (int i = 1; i <= 100; i++) {
+            if (count[i] == 1) {
+                totalSum += i;
+            }
         }
+        
+        return totalSum;
     }
 };
