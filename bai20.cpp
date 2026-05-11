@@ -1,29 +1,42 @@
 class Solution {
 public:
-    bool isValid(string s) {
-        stack<char> st;
+    bool wordPattern(string pattern, string s) {
+        // Tách chuỗi s thành danh sách các từ
+        vector<string> words;
+        stringstream ss(s);
+        string word;
+        while (ss >> word) {
+            words.push_back(word);
+        }
 
-        for (char c : s) {
-            // Nếu là dấu mở
-            if (c == '(' || c == '{' || c == '[') {
-                st.push(c);
+        // Nếu số lượng ký tự trong pattern khác số lượng từ trong s
+        if (pattern.length() != words.size()) {
+            return false;
+        }
+
+        // Hai bảng băm để kiểm tra quan hệ song ánh
+        unordered_map<char, string> charToWord;
+        unordered_map<string, char> wordToChar;
+
+        for (int i = 0; i < pattern.length(); i++) {
+            char c = pattern[i];
+            string w = words[i];
+
+            // Kiểm tra chiều: Ký tự -> Từ
+            if (charToWord.count(c)) {
+                if (charToWord[c] != w) return false;
+            } else {
+                charToWord[c] = w;
             }
-            else {
-                // Nếu stack rỗng -> sai
-                if (st.empty()) return false;
 
-                char top = st.top();
-                st.pop();
-
-                // Kiểm tra có khớp không
-                if ((c == ')' && top != '(') ||
-                    (c == '}' && top != '{') ||
-                    (c == ']' && top != '[')) {
-                    return false;
-                }
+            // Kiểm tra chiều: Từ -> Ký tự
+            if (wordToChar.count(w)) {
+                if (wordToChar[w] != c) return false;
+            } else {
+                wordToChar[w] = c;
             }
         }
 
-        return st.empty(); // Nếu rỗng -> hợp lệ
+        return true;
     }
 };
