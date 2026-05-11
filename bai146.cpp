@@ -1,0 +1,27 @@
+class Solution {
+public:
+    // Hàm phụ để tính tổng bình phương các chữ số
+    int getNext(int n) {
+        int totalSum = 0;
+        while (n > 0) {
+            int d = n % 10;
+            n = n / 10;
+            totalSum += d * d;
+        }
+        return totalSum;
+    }
+
+    bool isHappy(int n) {
+        int slowRunner = n;
+        int fastRunner = getNext(n);
+        
+        // Nếu là số hạnh phúc, fastRunner sẽ chạm 1 trước.
+        // Nếu có vòng lặp, hai con trỏ sẽ gặp nhau tại một số khác 1.
+        while (fastRunner != 1 && slowRunner != fastRunner) {
+            slowRunner = getNext(slowRunner);
+            fastRunner = getNext(getNext(fastRunner));
+        }
+        
+        return fastRunner == 1;
+    }
+};
