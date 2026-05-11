@@ -1,42 +1,20 @@
 class Solution {
 public:
-    int myAtoi(string s) {
-         int i = 0;
-        int n = s.size();
+    bool isSubsequence(string s, string t) {
+        int i = 0; // Con trỏ cho chuỗi s
+        int j = 0; // Con trỏ cho chuỗi t
         
-        // 1. Bỏ khoảng trắng đầu
-        while (i < n && s[i] == ' ')
-            i++;
-        
-        // 2. Kiểm tra chuỗi rỗng
-        if (i == n) return 0;
-
-        // 3. Xử lý dấu
-        int sign = 1;
-        if (s[i] == '-') {
-            sign = -1;
-            i++;
-        } 
-        else if (s[i] == '+') {
-            i++;
-        }
-
-        int result = 0;
-
-        // 4. Đọc số
-        while (i < n && isdigit(s[i])) {
-            int digit = s[i] - '0';
-
-            // 5. Kiểm tra overflow trước khi nhân 10
-            if (result > INT_MAX / 10 || 
-               (result == INT_MAX / 10 && digit > 7)) {
-                return (sign == 1) ? INT_MAX : INT_MIN;
+        // Duyệt cho đến khi một trong hai chuỗi kết thúc
+        while (i < s.length() && j < t.length()) {
+            // Nếu ký tự trùng nhau, ta tiến tới ký tự tiếp theo của s
+            if (s[i] == t[j]) {
+                i++;
             }
-
-            result = result * 10 + digit;
-            i++;
+            // Luôn luôn tiến tới ký tự tiếp theo của t
+            j++;
         }
-
-        return result * sign;
+        
+        // Nếu i bằng độ dài của s, nghĩa là ta đã tìm thấy tất cả ký tự của s trong t
+        return i == s.length();
     }
 };
