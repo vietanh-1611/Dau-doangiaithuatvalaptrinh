@@ -1,40 +1,12 @@
-/**
- * Definition for singly-linked list.
- * struct ListNode {
- *     int val;
- *     ListNode *next;
- *     ListNode() : val(0), next(nullptr) {}
- *     ListNode(int x) : val(x), next(nullptr) {}
- *     ListNode(int x, ListNode *next) : val(x), next(next) {}
- * };
- */
 class Solution {
 public:
-    ListNode* mergeTwoLists(ListNode* list1, ListNode* list2) {
-        // Tạo node giả (dummy)
-        ListNode* dummy = new ListNode(0);
-        ListNode* current = dummy;
-
-        // So sánh và nối từng phần tử
-        while (list1 != nullptr && list2 != nullptr) {
-            if (list1->val < list2->val) {
-                current->next = list1;
-                list1 = list1->next;
-            } else {
-                current->next = list2;
-                list2 = list2->next;
-            }
-            current = current->next;
-        }
-
-        // Nối phần còn lại
-        if (list1 != nullptr) {
-            current->next = list1;
-        } else {
-            current->next = list2;
-        }
-
-        // Trả về danh sách đã merge (bỏ dummy)
-        return dummy->next;
+    char findTheDifference(string s, string t) {
+        char result = 0;
+        // XOR tất cả ký tự trong s
+        for (char c : s) result ^= c;
+        // XOR tất cả ký tự trong t
+        for (char c : t) result ^= c;
+        
+        return result;
     }
 };
