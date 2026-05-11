@@ -1,25 +1,20 @@
 class Solution {
 public:
-    int longestValidParentheses(string s) {
-        stack<int> st;
-        st.push(-1); // mốc ban đầu
-
-        int maxLen = 0;
-
-        for (int i = 0; i < s.length(); i++) {
-            if (s[i] == '(') {
-                st.push(i);
-            } else {
-                st.pop();
-
-                if (st.empty()) {
-                    st.push(i); // reset mốc
-                } else {
-                    maxLen = max(maxLen, i - st.top());
-                }
-            }
+    vector<int> sumZero(int n) {
+        vector<int> result;
+        result.reserve(n);
+        
+        // Duyệt từ 1 đến n/2
+        for (int i = 1; i <= n / 2; i++) {
+            result.push_back(i);    // Thêm số dương
+            result.push_back(-i);   // Thêm số âm đối xứng
         }
-
-        return maxLen;
+        
+        // Nếu n lẻ, thêm số 0 vào để đủ số lượng n
+        if (n % 2 != 0) {
+            result.push_back(0);
+        }
+        
+        return result;
     }
 };
