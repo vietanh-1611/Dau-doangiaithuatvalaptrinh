@@ -1,43 +1,24 @@
 class Solution {
 public:
-    vector<int> spiralOrder(vector<vector<int>>& matrix) {
-        vector<int> result;
-        if (matrix.empty()) return result;
+    int countWords(vector<string>& words1, vector<string>& words2) {
+        unordered_map<string, int> count1;
+        unordered_map<string, int> count2;
 
-        int rows = matrix.size();
-        int cols = matrix[0].size();
-        
-        int top = 0, bottom = rows - 1;
-        int left = 0, right = cols - 1;
+        // Bước 1: Đếm tần suất các từ trong words1
+        for (const string& w : words1) {
+            count1[w]++;
+        }
 
-        while (top <= bottom && left <= right) {
-            // 1. Di chuyển sang phải (hàng top)
-            for (int j = left; j <= right; j++) {
-                result.push_back(matrix[top][j]);
-            }
-            top++;
+        // Bước 2: Đếm tần suất các từ trong words2
+        for (const string& w : words2) {
+            count2[w]++;
+        }
 
-            // 2. Di chuyển xuống dưới (cột right)
-            for (int i = top; i <= bottom; i++) {
-                result.push_back(matrix[i][right]);
-            }
-            right--;
-
-            // Kiểm tra xem còn hàng/cột để duyệt không
-            if (top <= bottom) {
-                // 3. Di chuyển sang trái (hàng bottom)
-                for (int j = right; j >= left; j--) {
-                    result.push_back(matrix[bottom][j]);
-                }
-                bottom--;
-            }
-
-            if (left <= right) {
-                // 4. Di chuyển lên trên (cột left)
-                for (int i = bottom; i >= top; i--) {
-                    result.push_back(matrix[i][left]);
-                }
-                left++;
+        int result = 0;
+        // Bước 3: Tìm các từ có tần suất bằng 1 ở cả hai bên
+        for (auto const& [word, freq] : count1) {
+            if (freq == 1 && count2[word] == 1) {
+                result++;
             }
         }
 
