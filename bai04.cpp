@@ -1,39 +1,27 @@
 class Solution {
 public:
-    double findMedianSortedArrays(vector<int>& nums1, vector<int>& nums2) {
-        // Đảm bảo nums1 là mảng nhỏ hơn
-        if (nums1.size() > nums2.size())
-            return findMedianSortedArrays(nums2, nums1);
+    bool isAnagram(string s, string t) {
+        // Nếu độ dài khác nhau thì không thể là anagram
+        if (s.length() != t.length()) {
+            return false;
+        }
 
-        int m = nums1.size();
-        int n = nums2.size();
-        
-        int left = 0, right = m;
+        // Tạo mảng 26 phần tử đại diện cho 26 chữ cái 'a'-'z'
+        int count[26] = {0};
 
-        while (left <= right) {
-            int cut1 = (left + right) / 2;
-            int cut2 = (m + n + 1) / 2 - cut1;
+        for (int i = 0; i < s.length(); i++) {
+            // Tăng ở vị trí ký tự trong s, giảm ở vị trí ký tự trong t
+            count[s[i] - 'a']++;
+            count[t[i] - 'a']--;
+        }
 
-            int L1 = (cut1 == 0) ? INT_MIN : nums1[cut1 - 1];
-            int R1 = (cut1 == m) ? INT_MAX : nums1[cut1];
-
-            int L2 = (cut2 == 0) ? INT_MIN : nums2[cut2 - 1];
-            int R2 = (cut2 == n) ? INT_MAX : nums2[cut2];
-
-            if (L1 <= R2 && L2 <= R1) {
-                if ((m + n) % 2 == 0)
-                    return (max(L1, L2) + min(R1, R2)) / 2.0;
-                else
-                    return max(L1, L2);
-            }
-            else if (L1 > R2) {
-                right = cut1 - 1;
-            }
-            else {
-                left = cut1 + 1;
+        // Kiểm tra xem tất cả các vị trí có về lại 0 hay không
+        for (int i = 0; i < 26; i++) {
+            if (count[i] != 0) {
+                return false;
             }
         }
 
-        return 0.0;
+        return true;
     }
 };
