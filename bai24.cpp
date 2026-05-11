@@ -1,24 +1,24 @@
 class Solution {
 public:
-    ListNode* swapPairs(ListNode* head) {
-        ListNode* dummy = new ListNode(0);
-        dummy->next = head;
+    int findContentChildren(vector<int>& g, vector<int>& s) {
+        // Bước 1: Sắp xếp cả hai mảng
+        sort(g.begin(), g.end());
+        sort(s.begin(), s.end());
 
-        ListNode* current = dummy;
+        int child_i = 0; // Con trỏ cho danh sách trẻ em
+        int cookie_j = 0; // Con trỏ cho danh sách bánh quy
 
-        while (current->next != nullptr && current->next->next != nullptr) {
-            ListNode* first = current->next;
-            ListNode* second = current->next->next;
-
-            // Đổi chỗ
-            first->next = second->next;
-            second->next = first;
-            current->next = second;
-
-            // Di chuyển sang cặp tiếp theo
-            current = first;
+        // Bước 2: Duyệt qua cả hai mảng
+        while (child_i < g.size() && cookie_j < s.size()) {
+            // Nếu bánh quy j đủ lớn cho đứa trẻ i
+            if (s[cookie_j] >= g[child_i]) {
+                child_i++; // Đứa trẻ này đã hạnh phúc, chuyển sang đứa trẻ tiếp theo
+            }
+            // Luôn luôn chuyển sang chiếc bánh quy tiếp theo
+            cookie_j++;
         }
 
-        return dummy->next;
+        // Số lượng trẻ em hạnh phúc chính là vị trí của con trỏ child_i
+        return child_i;
     }
 };
