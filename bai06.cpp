@@ -1,27 +1,24 @@
 class Solution {
 public:
-    string convert(string s, int numRows) {
-       if (numRows == 1 || s.size() <= numRows)
-            return s;
-
-        vector<string> rows(numRows);
+    vector<vector<string>> groupAnagrams(vector<string>& strs) {
+        // Bảng băm: key là chuỗi đã sắp xếp, value là danh sách các từ đảo chữ
+        unordered_map<string, vector<string>> groups;
         
-        int currentRow = 0;
-        bool goingDown = false;
-
-        for (char c : s) {
-            rows[currentRow] += c;
-
-            if (currentRow == 0 || currentRow == numRows - 1)
-                goingDown = !goingDown;
-
-            currentRow += goingDown ? 1 : -1;
+        for (const string& s : strs) {
+            string sorted_s = s;
+            // Sắp xếp chuỗi để tạo ra "đặc điểm chung"
+            sort(sorted_s.begin(), sorted_s.end());
+            
+            // Đưa từ gốc vào nhóm tương ứng
+            groups[sorted_s].push_back(s);
         }
-
-        string result;
-        for (string row : rows)
-            result += row;
-
-        return result; 
+        
+        // Chuyển kết quả từ map sang vector<vector<string>>
+        vector<vector<string>> result;
+        for (auto& pair : groups) {
+            result.push_back(pair.second);
+        }
+        
+        return result;
     }
 };
