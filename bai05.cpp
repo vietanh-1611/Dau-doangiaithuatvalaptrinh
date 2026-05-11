@@ -1,33 +1,23 @@
 class Solution {
 public:
-    string longestPalindrome(string s) {
-    if (s.empty()) return "";
+    string longestCommonPrefix(vector<string>& strs) {
+       if (strs.empty()) return "";
 
-        int start = 0;
-        int maxLen = 1;
+    string prefix = strs[0];  // lấy chuỗi đầu làm tiền tố
 
-        for (int i = 0; i < s.size(); i++) {
-
-            // Trường hợp độ dài lẻ
-            expand(s, i, i, start, maxLen);
-
-            // Trường hợp độ dài chẵn
-            expand(s, i, i + 1, start, maxLen);
+    for (int i = 1; i < strs.size(); i++) {
+        while (strs[i].find(prefix) != 0) { 
+            prefix.pop_back();  // xóa ký tự cuối
+            if (prefix.empty()) return "";
         }
-
-        return s.substr(start, maxLen);
     }
 
-private:
-    void expand(string& s, int left, int right, int& start, int& maxLen) {
-        while (left >= 0 && right < s.size() && s[left] == s[right]) {
-            if (right - left + 1 > maxLen) {
-                start = left;
-                maxLen = right - left + 1;
-            }
-            left--;
-            right++;
-        }
-       
+    return prefix;
+}
+
+int main() {
+    vector<string> strs = {"flower","flow","flight"};
+    cout << longestCommonPrefix(strs);
+    return 0; 
     }
 };
