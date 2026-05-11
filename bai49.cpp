@@ -1,24 +1,12 @@
 class Solution {
 public:
-    vector<vector<string>> groupAnagrams(vector<string>& strs) {
-        // Bảng băm: key là chuỗi đã sắp xếp, value là danh sách các từ đảo chữ
-        unordered_map<string, vector<string>> groups;
-        
-        for (const string& s : strs) {
-            string sorted_s = s;
-            // Sắp xếp chuỗi để tạo ra "đặc điểm chung"
-            sort(sorted_s.begin(), sorted_s.end());
-            
-            // Đưa từ gốc vào nhóm tương ứng
-            groups[sorted_s].push_back(s);
+    string replaceDigits(string s) {
+        // Duyệt qua các vị trí lẻ (nơi chứa chữ số)
+        for (int i = 1; i < s.length(); i += 2) {
+            // s[i-1] là ký tự ngay trước đó
+            // s[i] - '0' chuyển ký tự số (VD: '5') thành số nguyên (5)
+            s[i] = s[i - 1] + (s[i] - '0');
         }
-        
-        // Chuyển kết quả từ map sang vector<vector<string>>
-        vector<vector<string>> result;
-        for (auto& pair : groups) {
-            result.push_back(pair.second);
-        }
-        
-        return result;
+        return s;
     }
 };
